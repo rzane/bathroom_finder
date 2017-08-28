@@ -13,6 +13,11 @@ defmodule BathroomFinderWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/" do
+    get "/graphiql", Absinthe.Plug.GraphiQL, schema: BathroomFinderWeb.Schema
+    forward "/graphql", Absinthe.Plug, schema: BathroomFinderWeb.Schema
+  end
+
   scope "/", BathroomFinderWeb do
     pipe_through :browser # Use the default browser stack
 
