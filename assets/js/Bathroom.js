@@ -1,12 +1,8 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import { compose, withProps } from 'recompose';
-import Form from './Form';
+import { compose, graphql } from 'react-apollo';
 import asEditable from './asEditable';
-import {
-  BathroomsQuery,
-  DeleteBathroomMutation
-} from './queries';
+import EditBathroomForm from './EditBathroomForm';
+import { BathroomsQuery, DeleteBathroomMutation } from './queries';
 
 const Bathroom = ({
   handleDelete,
@@ -38,12 +34,8 @@ const Bathroom = ({
   </div>
 );
 
-const EditBathroom = withProps(() => ({
-  title: 'Edit bathroom'
-}))(Form);
-
 const enhance = compose(
-  asEditable(EditBathroom),
+  asEditable(EditBathroomForm),
   graphql(DeleteBathroomMutation, {
     props ({ mutate, ownProps: { bathroom } }) {
       return {

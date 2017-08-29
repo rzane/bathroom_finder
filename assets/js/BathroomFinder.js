@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { BathroomsQuery } from './queries';
 import Bathroom from './Bathroom';
-import NewBathroom from './NewBathroom';
+import NewBathroomButton from './NewBathroomButton';
 
 const BathroomFinder = ({ data: { bathrooms, loading } }) => (
   <div className='App'>
@@ -28,8 +28,12 @@ const BathroomFinder = ({ data: { bathrooms, loading } }) => (
         ) : bathrooms.map(bathroom =>
           <Bathroom key={bathroom.id} bathroom={bathroom} />
         )}
+      </div>
+    </section>
 
-        <NewBathroom />
+    <section className='section'>
+      <div className='container'>
+        <NewBathroomButton />
       </div>
     </section>
   </div>
