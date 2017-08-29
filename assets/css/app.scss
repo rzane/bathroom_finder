@@ -20,7 +20,12 @@
   margin-right: 15px;
 }
 
-textarea {
+.select,
+.select select {
+  width: 100%;
+}
+
+textarea.input {
   min-height: 150px;
 }
 

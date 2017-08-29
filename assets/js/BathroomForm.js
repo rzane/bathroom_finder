@@ -33,10 +33,9 @@ const BathroomForm = ({
         </div>
 
         <div className='field'>
-          <div className='control'>
+          <div className='select control'>
             <select
               name='category_id'
-              className='input'
               value={values.category_id}
               onChange={handleChange}
             >
