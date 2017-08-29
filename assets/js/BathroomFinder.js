@@ -3,8 +3,9 @@ import { graphql } from 'react-apollo';
 import { BathroomsQuery } from './queries';
 import Bathroom from './Bathroom';
 import NewBathroomButton from './NewBathroomButton';
+import CoordinateSearch from './CoordinateSearch';
 
-const BathroomFinder = ({ data: { bathrooms, loading } }) => (
+const BathroomFinder = ({ data: { bathrooms, loading, refetch } }) => (
   <div className='App'>
     <section className='hero is-info is-bold is-medium'>
       <div className='hero-body'>
@@ -21,6 +22,8 @@ const BathroomFinder = ({ data: { bathrooms, loading } }) => (
 
     <section className='section'>
       <div className='container'>
+        <CoordinateSearch onChange={refetch} />
+
         {loading ? (
           <p className='subtitle has-text-centered'>
             Loading bathrooms...

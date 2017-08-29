@@ -1,8 +1,8 @@
 import { gql } from 'react-apollo';
 
 export const BathroomsQuery = gql`
-  query {
-    bathrooms {
+  query ($coordinates: CoordinatesInput) {
+    bathrooms(coordinates: $coordinates) {
       id
       label
       latitude
