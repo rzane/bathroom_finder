@@ -7,7 +7,7 @@ import {
 } from './queries';
 
 const enhance = graphql(CreateBathroomMutation, {
-  props ({ mutate, ownProps: { setEditing } }) {
+  props ({ mutate, ownProps: { setEditing, variables } }) {
     return {
       title: 'Add a bathroom',
 
@@ -19,11 +19,15 @@ const enhance = graphql(CreateBathroomMutation, {
 
           update (store, { data: { createBathroom } }) {
             const data = store.readQuery({
-              query: BathroomsQuery
+              query: BathroomsQuery,
+              variables
             });
 
             store.writeQuery({
               query: BathroomsQuery,
+              variables: {
+                coordinates: null
+              },
               data: Object.assign({}, data, {
                 bathrooms: data.bathrooms.concat([createBathroom])
               })

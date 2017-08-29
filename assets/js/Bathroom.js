@@ -42,14 +42,17 @@ const Bathroom = ({
 const enhance = compose(
   asEditable(EditBathroomForm),
   graphql(DeleteBathroomMutation, {
-    props ({ mutate, ownProps: { bathroom } }) {
+    props ({ mutate, ownProps: { bathroom, variables } }) {
       return {
         handleDelete (event) {
           event.preventDefault();
 
           return mutate({
             variables: { id: bathroom.id },
-            refetchQueries: [{ query: BathroomsQuery }]
+            refetchQueries: [{
+              query: BathroomsQuery,
+              variables
+            }]
           })
         }
       };

@@ -5,7 +5,7 @@ import Bathroom from './Bathroom';
 import NewBathroomButton from './NewBathroomButton';
 import CoordinateSearch from './CoordinateSearch';
 
-const BathroomFinder = ({ data: { bathrooms, loading, refetch } }) => (
+const BathroomFinder = ({ data: { bathrooms, loading, refetch, variables } }) => (
   <div className='App'>
     <section className='hero is-info is-bold is-medium'>
       <div className='hero-body'>
@@ -29,14 +29,14 @@ const BathroomFinder = ({ data: { bathrooms, loading, refetch } }) => (
             Loading bathrooms...
           </p>
         ) : bathrooms.map(bathroom =>
-          <Bathroom key={bathroom.id} bathroom={bathroom} />
+          <Bathroom key={bathroom.id} bathroom={bathroom} variables={variables} />
         )}
       </div>
     </section>
 
     <section className='section'>
       <div className='container'>
-        <NewBathroomButton />
+        <NewBathroomButton variables={variables} />
       </div>
     </section>
   </div>
