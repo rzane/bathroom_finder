@@ -12,7 +12,7 @@ export const BathroomsQuery = gql`
   }
 `;
 
-export const CreateBathroomQuery = gql`
+export const CreateBathroomMutation = gql`
   mutation ($bathroom: BathroomInput) {
     createBathroom(bathroom: $bathroom) {
       id
@@ -24,7 +24,7 @@ export const CreateBathroomQuery = gql`
   }
 `;
 
-export const UpdateBathroomQuery = gql`
+export const UpdateBathroomMutation = gql`
   mutation ($id: ID, $bathroom: BathroomInput) {
     updateBathroom(id: $id, bathroom: $bathroom) {
       id

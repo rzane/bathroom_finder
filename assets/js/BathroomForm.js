@@ -1,6 +1,17 @@
 import React from 'react';
+import {
+  compose,
+  withHandlers,
+  withStateHandlers
+} from 'recompose';
 
-const BathroomForm = ({ title, handleSave, handleCancel }) => (
+const BathroomForm = ({
+  title,
+  values,
+  handleSave,
+  handleChange,
+  handleCancel
+}) => (
   <div className='BathroomForm card'>
     <header className='card-header'>
       <p className='card-header-title'>
@@ -13,7 +24,13 @@ const BathroomForm = ({ title, handleSave, handleCancel }) => (
 
         <div className='field'>
           <div className='control'>
-            <textarea className='input' placeholder='Enter a description' />
+            <textarea
+              name='description'
+              className='input'
+              placeholder='Enter a description'
+              value={values.description}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
@@ -27,4 +44,28 @@ const BathroomForm = ({ title, handleSave, handleCancel }) => (
   </div>
 );
 
-export default BathroomForm;
+const enhance = compose(
+  withStateHandlers(
+    ({ bathroom = {} }) => ({
+      values: {
+        description: bathroom.description || ''
+      }
+    }),
+    {
+      handleChange: ({ values }) => (event) => ({
+        values: Object.assign({}, values, {
+          [event.target.name]: event.target.value
+        })
+      })
+    }
+  ),
+
+  withHandlers({
+    handleSave: ({ handleSave, values }) => (event) => {
+      event.preventDefault();
+      handleSave(values);
+    }
+  })
+);
+
+export default enhance(BathroomForm);

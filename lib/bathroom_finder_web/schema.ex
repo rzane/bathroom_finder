@@ -2,8 +2,20 @@ defmodule BathroomFinderWeb.Schema do
   use Absinthe.Schema
 
   alias BathroomFinder.{Repo, Bathroom}
+  alias BathroomFinderWeb.Schema
 
   import_types BathroomFinderWeb.Schema.Types
+
+  def translate({:error, %Ecto.Changeset{} = changeset}) do
+    errors = for {key, {message, _}} <- changeset.errors do
+      "#{key} #{message}"
+    end
+
+    {:error, errors}
+  end
+  def translate(result) do
+    result
+  end
 
   query do
     field :bathrooms, list_of(:bathroom) do
@@ -29,6 +41,7 @@ defmodule BathroomFinderWeb.Schema do
         %Bathroom{}
         |> Bathroom.changeset(input)
         |> Repo.insert
+        |> Schema.translate
       end
     end
 
@@ -41,6 +54,7 @@ defmodule BathroomFinderWeb.Schema do
         |> Repo.get!(id)
         |> Bathroom.changeset(input)
         |> Repo.update
+        |> Schema.translate
       end
     end
 
@@ -51,6 +65,7 @@ defmodule BathroomFinderWeb.Schema do
         Bathroom
         |> Repo.get!(id)
         |> Repo.delete
+        |> Schema.translate
       end
     end
   end
