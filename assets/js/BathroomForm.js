@@ -1,14 +1,13 @@
 import React from 'react';
 import Geosuggest from 'react-geosuggest';
-import {
-  compose,
-  withHandlers,
-  withStateHandlers
-} from 'recompose';
+import { graphql } from 'react-apollo';
+import { compose, withHandlers, withStateHandlers } from 'recompose';
+import { CategoriesQuery } from './queries';
 
 const BathroomForm = ({
   title,
   values,
+  data: { categories = [] },
   handleSave,
   handleCancel,
   handleChange,
@@ -33,6 +32,22 @@ const BathroomForm = ({
           </div>
         </div>
 
+        <div className='field'>
+          <div className='control'>
+            <select
+              name='category_id'
+              className='input'
+              value={values.category_id}
+              onChange={handleChange}
+            >
+              {categories.map(category =>
+                <option value={category.id} key={category.id}>
+                  {category.name}
+                </option>
+              )}
+            </select>
+          </div>
+        </div>
 
         <div className='field'>
           <div className='control'>
@@ -57,13 +72,16 @@ const BathroomForm = ({
 );
 
 const enhance = compose(
+  graphql(CategoriesQuery),
+
   withStateHandlers(
     ({ bathroom = {} }) => ({
       values: {
         label: bathroom.label,
         latitude: bathroom.latitude,
         longitude: bathroom.longitude,
-        description: bathroom.description || ''
+        description: bathroom.description || '',
+        category_id: bathroom.category_id || '',
       }
     }),
     {

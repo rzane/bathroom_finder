@@ -10,13 +10,15 @@ defmodule BathroomFinder.Bathroom do
     field :latitude, :float
     field :longitude, :float
 
+    belongs_to :category, BathroomFinder.Category
+
     timestamps()
   end
 
   @doc false
   def changeset(%Bathroom{} = bathroom, attrs) do
     bathroom
-    |> cast(attrs, [:label, :latitude, :longitude, :description])
+    |> cast(attrs, [:label, :latitude, :longitude, :description, :category_id])
     |> validate_required([:label, :latitude, :longitude])
   end
 end

@@ -14,6 +14,10 @@ defmodule BathroomFinderWeb.Schema do
       arg :id, non_null(:id)
       resolve &Resolver.find/2
     end
+
+    field :categories, list_of(:category) do
+      resolve &Resolver.categories/2
+    end
   end
 
   mutation do

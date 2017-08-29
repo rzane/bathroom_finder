@@ -12,12 +12,17 @@ const Bathroom = ({
     label,
     latitude,
     longitude,
-    description
+    description,
+    category
   }
 }) => (
   <div className='Bathroom card'>
     <header className='card-header'>
       <p className='card-header-title'>
+        <span className='Category tag'>
+          {category.name}
+        </span>
+
         {label}
       </p>
     </header>

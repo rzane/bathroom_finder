@@ -8,6 +8,19 @@ export const BathroomsQuery = gql`
       latitude
       longitude
       description
+      category_id
+      category {
+        name
+      }
+    }
+  }
+`;
+
+export const CategoriesQuery = gql`
+  query {
+    categories {
+      id
+      name
     }
   }
 `;
@@ -20,6 +33,10 @@ export const CreateBathroomMutation = gql`
       latitude
       longitude
       description
+      category_id
+      category {
+        name
+      }
     }
   }
 `;
@@ -32,6 +49,10 @@ export const UpdateBathroomMutation = gql`
       latitude
       longitude
       description
+      category_id
+      category {
+        name
+      }
     }
   }
 `;
@@ -43,5 +64,3 @@ export const DeleteBathroomMutation = gql`
     }
   }
 `;
-
-

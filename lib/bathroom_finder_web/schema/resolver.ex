@@ -1,6 +1,6 @@
 defmodule BathroomFinderWeb.Schema.Resolver do
   import Ecto.Query
-  alias BathroomFinder.{Repo, Bathroom}
+  alias BathroomFinder.{Repo, Bathroom, Category}
 
   @distance_query "select geodistance($1, $2, $3, $4)"
 
@@ -18,6 +18,10 @@ defmodule BathroomFinderWeb.Schema.Resolver do
 
   def all(_args, _info) do
     {:ok, Repo.all(Bathroom)}
+  end
+
+  def categories(_args, _info) do
+    {:ok, Repo.all(Category)}
   end
 
   def find(%{id: id}, _info) do
