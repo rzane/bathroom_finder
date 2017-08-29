@@ -1,6 +1,8 @@
-defmodule BathroomFinderWeb.Resolver do
+defmodule BathroomFinderWeb.Schema.Resolver do
   import Ecto.Query
   alias BathroomFinder.{Repo, Bathroom}
+
+  @distance_query "select geodistance($1, $2, $3, $4)"
 
   def all(%{coordinates: coordinates}, _info) do
     query = from b in Bathroom, order_by: fragment(
@@ -20,6 +22,10 @@ defmodule BathroomFinderWeb.Resolver do
 
   def find(%{id: id}, _info) do
     {:ok, Repo.get(Bathroom, id)}
+  end
+
+  def distance(bathroom, %{coordinates: coordinates}, _info) do
+    {:ok, get_distance(bathroom, coordinates)}
   end
 
   def create(%{bathroom: input}, _info) do
@@ -42,6 +48,11 @@ defmodule BathroomFinderWeb.Resolver do
     |> Repo.get!(id)
     |> Repo.delete
     |> translate()
+  end
+
+  defp get_distance(%Bathroom{latitude: a, longitude: b}, %{latitude: c, longitude: d}) do
+    %{rows: [[value]]} = Ecto.Adapters.SQL.query!(Repo, @distance_query, [a, b, c, d])
+    value
   end
 
   defp translate({:error, %Ecto.Changeset{} = changeset}) do

@@ -1,5 +1,6 @@
 defmodule BathroomFinderWeb.Schema.Types do
   use Absinthe.Schema.Notation
+  alias BathroomFinderWeb.Schema.Resolver
 
   object :bathroom do
     field :id, :id
@@ -7,6 +8,11 @@ defmodule BathroomFinderWeb.Schema.Types do
     field :latitude, :float
     field :longitude, :float
     field :description, :string
+
+    field :distance, :float do
+      arg :coordinates, non_null(:coordinates_input)
+      resolve &Resolver.distance/3
+    end
   end
 
   input_object :bathroom_input do

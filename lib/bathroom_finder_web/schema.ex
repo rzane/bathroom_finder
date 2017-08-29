@@ -1,6 +1,6 @@
 defmodule BathroomFinderWeb.Schema do
   use Absinthe.Schema
-  alias BathroomFinderWeb.Resolver
+  alias BathroomFinderWeb.Schema.Resolver
 
   import_types BathroomFinderWeb.Schema.Types
 
