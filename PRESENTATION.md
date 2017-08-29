@@ -43,6 +43,11 @@
 ---
 
 # We're all on the same team here
+## So how do we solve this problem?
+
+* One endpoint
+* All post requests
+* A DSL for querying
 
 ---
 
