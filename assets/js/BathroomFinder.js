@@ -1,8 +1,10 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
+import { BathroomsQuery } from './queries';
 import Bathroom from './Bathroom';
 import NewBathroom from './NewBathroom';
 
-const BathroomFinder = () => (
+const BathroomFinder = ({ data: { bathrooms, loading } }) => (
   <div className='App'>
     <section className='hero is-info is-bold is-medium'>
       <div className='hero-body'>
@@ -19,13 +21,18 @@ const BathroomFinder = () => (
 
     <section className='section'>
       <div className='container'>
-        <Bathroom />
-        <Bathroom />
-        <Bathroom />
+        {loading ? (
+          <p className='subtitle has-text-centered'>
+            Loading bathrooms...
+          </p>
+        ) : bathrooms.map(bathroom =>
+          <Bathroom key={bathroom.id} bathroom={bathroom} />
+        )}
+
         <NewBathroom />
       </div>
     </section>
   </div>
 );
 
-export default BathroomFinder;
+export default graphql(BathroomsQuery)(BathroomFinder);

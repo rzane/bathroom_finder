@@ -3,19 +3,27 @@ import { withProps } from 'recompose';
 import Form from './Form';
 import asEditable from './asEditable';
 
-const Bathroom = ({ handleEdit }) => (
+const Bathroom = ({
+  handleEdit,
+  bathroom: {
+    label,
+    description
+  }
+}) => (
   <div className='Bathroom card'>
     <header className='card-header'>
       <p className='card-header-title'>
-        Bathroom
+        {label}
       </p>
     </header>
 
-    <div className='card-content'>
-      <div className='content'>
-        This is a really great bathroom.
+    {description && (
+      <div className='card-content'>
+        <div className='content'>
+          {description}
+        </div>
       </div>
-    </div>
+    )}
 
     <footer className='card-footer'>
       <a className='card-footer-item'>Delete</a>
