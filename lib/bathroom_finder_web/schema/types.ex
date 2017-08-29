@@ -15,4 +15,9 @@ defmodule BathroomFinderWeb.Schema.Types do
     field :longitude, :float
     field :description, :string
   end
+
+  input_object :coordinates_input do
+    field :latitude, non_null(:float)
+    field :longitude, non_null(:float)
+  end
 end
