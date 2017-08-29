@@ -20,7 +20,7 @@ const Bathroom = ({
     <header className='card-header'>
       <p className='card-header-title'>
         <span className='Category tag'>
-          {category.name}
+          {category && category.name}
         </span>
 
         {label}

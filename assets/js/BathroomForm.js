@@ -75,13 +75,13 @@ const enhance = compose(
   graphql(CategoriesQuery),
 
   withStateHandlers(
-    ({ bathroom = {} }) => ({
+    ({ bathroom = {}, data: { categories } }) => ({
       values: {
         label: bathroom.label,
         latitude: bathroom.latitude,
         longitude: bathroom.longitude,
         description: bathroom.description || '',
-        category_id: bathroom.category_id || '',
+        category_id: bathroom.category_id || (categories && categories.length && categories[0].id) || '',
       }
     }),
     {

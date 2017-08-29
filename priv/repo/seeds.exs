@@ -25,3 +25,11 @@ Repo.insert! %Bathroom{
   longitude: -75.1607353,
   category_id: offices.id
 }
+
+Repo.insert! %Bathroom{
+  description: "Absolutely disgusting.",
+  label: "McDonald's, 12th Avenue, San Diego, California, United States",
+  latitude: 32.7186937,
+  longitude: -117.15409360000001,
+  category_id: restaurants.id,
+}
