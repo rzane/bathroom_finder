@@ -2,6 +2,7 @@ import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import asEditable from './asEditable';
 import EditBathroomForm from './EditBathroomForm';
+import BathroomMap from './BathroomMap';
 import { BathroomsQuery, DeleteBathroomMutation } from './queries';
 
 const Bathroom = ({
@@ -9,6 +10,8 @@ const Bathroom = ({
   handleEdit,
   bathroom: {
     label,
+    latitude,
+    longitude,
     description
   }
 }) => (
@@ -18,6 +21,8 @@ const Bathroom = ({
         {label}
       </p>
     </header>
+
+    <BathroomMap position={{ lat: latitude, lng: longitude }} />
 
     {description && (
       <div className='card-content'>

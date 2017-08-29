@@ -9,6 +9,7 @@
 
     <title>Bathroom Finder</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyrkZsR2e7CQYVXKPm5bLne2B-nxjwBns&libraries=places"></script>
   </head>
 
   <body>

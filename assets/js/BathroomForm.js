@@ -1,4 +1,5 @@
 import React from 'react';
+import Geosuggest from 'react-geosuggest';
 import {
   compose,
   withHandlers,
@@ -9,8 +10,9 @@ const BathroomForm = ({
   title,
   values,
   handleSave,
+  handleCancel,
   handleChange,
-  handleCancel
+  handleLocationChange
 }) => (
   <div className='BathroomForm card'>
     <header className='card-header'>
@@ -21,6 +23,16 @@ const BathroomForm = ({
 
     <div className='card-content'>
       <div className='content'>
+
+        <div className='field'>
+          <div className='control'>
+            <Geosuggest
+              initialValue={values.label}
+              onSuggestSelect={handleLocationChange}
+            />
+          </div>
+        </div>
+
 
         <div className='field'>
           <div className='control'>
@@ -48,6 +60,9 @@ const enhance = compose(
   withStateHandlers(
     ({ bathroom = {} }) => ({
       values: {
+        label: bathroom.label,
+        latitude: bathroom.latitude,
+        longitude: bathroom.longitude,
         description: bathroom.description || ''
       }
     }),
@@ -55,6 +70,14 @@ const enhance = compose(
       handleChange: ({ values }) => (event) => ({
         values: Object.assign({}, values, {
           [event.target.name]: event.target.value
+        })
+      }),
+
+      handleLocationChange: ({ values }) => ({ label, location: { lat, lng } }) => ({
+        values: Object.assign({}, values, {
+          label,
+          latitude: lat,
+          longitude: lng
         })
       })
     }
