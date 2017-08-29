@@ -1,1 +1,12 @@
 @import "bulma/bulma";
+
+.Bathroom,
+.NewBathroom,
+.Form {
+  margin-bottom: 20px;
+}
+
+.NewBathroom {
+  display: block;
+  width: 100%;
+}
