@@ -16,7 +16,12 @@ use Mix.Config
 config :bathroom_finder, BathroomFinderWeb.Endpoint,
   load_from_system_env: true,
   url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  root: ".",
+  version: Application.spec(:bathroom_finder, :vsn)
+
+config :bathroom_finder, BathroomFinder.Repo,
+  adapter: Ecto.Adapters.Postgres
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -61,4 +66,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"
