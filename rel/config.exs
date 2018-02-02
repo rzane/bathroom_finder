@@ -31,14 +31,14 @@ environment :dev do
   set dev_mode: true
   set include_erts: false
   set cookie: :"hLY4;0GG~rUpzh|fp17oUJr}`~&R:0;w5g!=u`({:7ftMe7&z51?UXtHt*EGmewT"
-  set commands: ["run": "rel/commands/run.sh"]
+  set commands: ["setup-database": "rel/commands/setup-database.sh"]
 end
 
 environment :prod do
   set include_erts: true
   set include_src: false
   set cookie: :"iR0E.qCgdd~FEfl3P|IE5VrWkD?oYMGD_3g$}$o=GIN0W0?G.XnN1L_xj^~hVY%~"
-  set commands: ["run": "rel/commands/run.sh"]
+  set commands: ["setup-database": "rel/commands/setup-database.sh"]
 end
 
 # You may define one or more releases in this file.
