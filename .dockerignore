@@ -1,0 +1,13 @@
+.git
+doc
+cover
+_build
+deps
+tmp
+
+assets/node_modules
+assets/npm-debug.log
+assets/yarn-error.log
+
+config/*.secret.exs
+priv/static
