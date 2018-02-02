@@ -8,12 +8,12 @@
     <meta name="author" content="">
 
     <title>Bathroom Finder</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/assets/app.css") %>">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyrkZsR2e7CQYVXKPm5bLne2B-nxjwBns&libraries=places"></script>
   </head>
 
   <body>
     <%= render @view_module, @view_template, assigns %>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= static_path(@conn, "/assets/app.js") %>"></script>
   </body>
 </html>
