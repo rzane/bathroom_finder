@@ -43,7 +43,8 @@ defmodule BathroomFinder.Mixfile do
       {:cowboy, "~> 1.0"},
       {:absinthe, "~> 1.3.1"},
       {:absinthe_plug, "~> 1.3.0"},
-      {:absinthe_ecto, "~> 0.1.2"}
+      {:absinthe_ecto, "~> 0.1.2"},
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 
