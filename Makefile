@@ -1,7 +1,12 @@
-ENV=staging
-IMAGE=rzane/bathroom_finder
+ENV?=staging
+IMAGE?=rzane/bathroom_finder
+CLUSTER?=bathroom-finder
 TAG?=$(shell git rev-parse --short HEAD)
 CONTEXT?=$(shell kubectl config current-context)
+
+cluster:
+	gcloud container clusters create $(CLUSTER) --num-nodes 3 --machine-type f1-micro
+	gcloud container clusters get-credentials $(CLUSTER)
 
 provision:
 	kubectl create namespace $(ENV)
