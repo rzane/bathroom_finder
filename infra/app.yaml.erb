@@ -22,8 +22,10 @@ spec:
       containers:
       - name: app
         image: rzane/bathroom_finder:<%= current_sha %>
+        imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 4000
+          - name: http
+            containerPort: 4000
         livenessProbe:
           httpGet:
             path: /
@@ -49,9 +51,9 @@ spec:
   type: LoadBalancer
 
   ports:
-    - port: 80
-      targetPort: 4000
-      protocol: TCP
+    - name: http
+      port: 80
+      targetPort: http
 
   selector:
     app: app

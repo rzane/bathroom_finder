@@ -7,9 +7,9 @@ CONTEXT?=$(shell kubectl config current-context)
 cluster:
 	gcloud container clusters create $(CLUSTER) --num-nodes 3 --machine-type f1-micro
 	gcloud container clusters get-credentials $(CLUSTER)
+	kubectl create namespace $(ENV)
 
 provision:
-	kubectl create namespace $(ENV)
 	kubectl create -f infra/postgres.yaml --namespace=$(ENV)
 
 build:
