@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: setup-database-<%= deployment_id %>
+  annotations:
+    kubernetes-deploy.shopify.io/timeout-override: "60s"
+  labels:
+    type: setup-database
+    name: setup-database-<%= deployment_id %>
+    app: bathroom-finder
+spec:
+  activeDeadlineSeconds: 60
+  restartPolicy: Never
+  containers:
+    - name: setup-database
+      image: rzane/bathroom_finder:<%= current_sha %>
+      imagePullPolicy: IfNotPresent
+      command: ["/opt/app/bin/bathroom_finder", "setup-database"]
+      env:
+      - name: DATABASE_URL
+        value: postgres://postgres:5432/bathroom_finder
