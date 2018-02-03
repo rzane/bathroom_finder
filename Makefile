@@ -1,7 +1,7 @@
 ENV=staging
 IMAGE=rzane/bathroom_finder
-TAG=$(shell git rev-parse --short HEAD)
-CONTEXT=$(shell kubectl config current-context)
+TAG?=$(shell git rev-parse --short HEAD)
+CONTEXT?=$(shell kubectl config current-context)
 
 provision:
 	kubectl create namespace $(ENV)

@@ -24,6 +24,11 @@ spec:
           name: postgres
           ports:
             - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: bathroom
+            - name: POSTGRES_PASSWORD
+              value: finder
 
 ---
 
