@@ -26,11 +26,11 @@ You'll also need the `kubernetes-deploy` tool:
 
     $ gem install kubernetes-deploy
 
-Next, you'll need to setup your cluster.
+Now, you're ready for your first deploy:
 
     $ make provision
 
-Now, you can deploy:
+From now on, just run the following command to deploy:
 
     $ make deploy
 
