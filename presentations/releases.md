@@ -40,7 +40,7 @@ Generated bathroom_finder app
 
 ---
 
-### How do I run it?
+# How do I run it?
 
 Export our configuration:
 
@@ -58,7 +58,7 @@ Start the server:
 
 ---
 
-### Poking around
+# Poking around
 
 We can attach to the running process and poke around:
 
@@ -68,7 +68,7 @@ We can attach to the running process and poke around:
 
 ---
 
-### Observing
+# Observing
 
     $ cookie='iR0E.qCgdd~FEfl3P|IE5VrWkD?oYMGD_3g$}$o=GIN0W0?G.XnN1L_xj^~hVY%~'
     $ erl -name debug@127.0.0.1 -setcookie "$cookie" -hidden -run observer
@@ -122,6 +122,11 @@ config :bathroom_finder,
 
 # Multi-stage is great!
 
+Before multi-stage, you'd have to build the image on your host machine, then `COPY` the release into the image. With multi-stage builds, we have a one-step process for building our image.
+
+---
+
+# Good Dockerfile vs. Bad Dockerfile
 
 |                           | Dockerfile | Dockerfile.horrible |
 |---------------------------|------------|---------------------|
