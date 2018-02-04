@@ -2,7 +2,7 @@
 
 ---
 
-### What are OTP Releases?
+# What are OTP Releases?
 
 * Releases are packages of compiled Erlang bytecode.
 * They contain scripts to start and stop the application.
@@ -12,14 +12,14 @@
 
 ---
 
-### How do I configure a release?
+# How do I configure a release?
 
-* We use [distillery](https://github.com/bitwalker/distillery).
+* Just use [distillery](https://github.com/bitwalker/distillery).
 * They provide a [walkthrough](https://hexdocs.pm/distillery/use-with-phoenix.html) for setting up your Phoenix app.
 
 ---
 
-### How do I build a release?
+# How do I build a release?
 
 ```
 $ yarn build
@@ -64,20 +64,20 @@ We can attach to the running process and poke around:
 
     $ bin/bathroom_finder attach
 
-**Note:** `ctrl+c` kills the node, `ctrl+d` exits.
+*Note:* `ctrl+c` kills the node, `ctrl+d` exits.
 
 ---
 
 ### Observing
 
-    $ cookie="iR0E.qCgdd~FEfl3P|IE5VrWkD?oYMGD_3g$}$o=GIN0W0?G.XnN1L_xj^~hVY%~"
+    $ cookie='iR0E.qCgdd~FEfl3P|IE5VrWkD?oYMGD_3g$}$o=GIN0W0?G.XnN1L_xj^~hVY%~'
     $ erl -name debug@127.0.0.1 -setcookie "$cookie" -hidden -run observer
 
-**Note:** Typically, I think you'd treat this cookie a little more securely that I have.
+*Note:* Typically, I think you'd treat this cookie a little more securely that I have.
 
 ---
 
-### Caveat: No Mix Tasks 
+# Caveat: No Mix Tasks 
 
 That's not too big of a deal though, because we can create custom scripts in our release.
 
@@ -86,6 +86,7 @@ $ bin/bathroom_finder command Elixir.BathroomFinder.ReleaseTasks migrate
 ```
 
 ```elixir
+# lib/bathroom_finder/release_tasks.ex
 defmodule BathroomFinder.ReleaseTasks do
   def migrate do
     {:ok, _} = Application.ensure_all_started(:bathroom_finder)
@@ -94,3 +95,46 @@ defmodule BathroomFinder.ReleaseTasks do
   end
 end
 ```
+
+---
+
+# Caveat: Configuration
+
+Make sure config vars are loaded from the environment at __run time__, not compile time.
+
+```elixir
+# BAD
+config :bathroom_finder,
+  blah: System.get_env("BLAH")
+  
+# BETTER
+config :bathroom_finder,
+  blah: {:system, "BLAH"}
+```
+
+---
+
+# Let's build a docker image
+
+    $ docker build -t rzane/bathroom_finder .
+
+---
+
+# Multi-stage is great!
+
+
+|                           | Dockerfile | Dockerfile.horrible |
+|---------------------------|------------|---------------------|
+| Image size                | 39.8MB     | 507MB               |
+| Build time (no cache)     | 2m 27s     | 2m 28s              |
+| Build time (cache busted) | 1m 04s     | 1m 51s              |
+| Push time                 | 37s        | 3m 42s              |
+| Pull time                 | 10s        | 59s                 |
+
+---
+
+# Run the image
+
+    $ docker-compose up app
+    
+*Note:* You might see some errors while the setup container is running.

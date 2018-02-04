@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres:9-alpine
+
+  setup:
+    image: rzane/bathroom_finder
+    command:
+      - setup-database
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/bathroom_finder
+
+  app:
+    image: rzane/bathroom_finder
+    ports:
+      - 4000:4000
+    depends_on:
+      - setup
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/bathroom_finder
