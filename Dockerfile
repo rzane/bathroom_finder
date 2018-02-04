@@ -61,8 +61,7 @@ ENV LANG=en_US.UTF-8 \
     HOME=/opt/app/ \
     TERM=xterm \
     SHELL=/bin/sh \
-    PORT=4000 \
-    BATHROOM_FINDER_VERSION=0.0.1
+    PORT=4000
 
 WORKDIR $HOME
 

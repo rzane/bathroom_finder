@@ -1,0 +1,33 @@
+# vi: syntax=dockerfile
+# This is an example of what a less efficient Dockerfile would look like.
+
+FROM elixir:1.6-alpine
+
+ENV HOME=/opt/app \
+    MIX_ENV=prod
+
+WORKDIR $HOME
+
+# Install stuff that we don't need in production, but have no choice in order to build the image.
+# That means nodejs, yarn, hex, rebar, git, make, g++, gcc, etc...
+RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+    echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk --no-cache add openssl bash git build-base nodejs@edge=8.9.4-r0 yarn@community=1.3.2-r0 && \
+    mix do local.hex --force, local.rebar --force
+
+# Copy all of the source code into our production image, despite the fact that we
+# really don't need any of it. Also, by copying in all of our source code, we're
+# pretty much accepting the fact that our builds will be extremely slow, because
+# we're going to miss the docker cache on our following steps.
+COPY . $HOME/
+
+# In order to minimize the number of layers (in order to produce the minimum image size),
+# we run all of the following as one RUN command.
+RUN mix deps.get --only $MIX_ENV && \
+    yarn install && \
+    yarn build && \
+    mix do phx.digest && \
+    mix release --no-tar
+
+ENTRYPOINT ["/opt/app/_build/prod/rel/bathroom_finder/bin/bathroom_finder"]
+CMD ["foreground"]
