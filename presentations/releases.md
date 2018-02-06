@@ -1,4 +1,4 @@
-![release](http://learnyousomeerlang.com/static/img/release.png)
+![fit](http://learnyousomeerlang.com/static/img/release.png)
 
 ---
 
@@ -77,6 +77,14 @@ We can attach to the running process and poke around:
 
 ---
 
+# Deployment
+
+1. Uplaod the resulting tarball to the server.
+2. `tar -xvf bathroom_finder.tar`
+3. `bin/bathroom_finder start`
+
+---
+
 # Caveat: No Mix Tasks 
 
 That's not too big of a deal though, because we can create custom scripts in our release.
@@ -114,15 +122,96 @@ config :bathroom_finder,
 
 ---
 
-# Let's build a docker image
+# Benefits of Releases
 
-    $ docker build -t rzane/bathroom_finder .
+* Run it on a bare metal server.
+* Minimizes security concerns by having the minimum amount of software.
+* Your entire application is eager loaded: faster startup time.
+* You don't need to manage Erlang/Elixir versions on the server.
 
 ---
 
-# Multi-stage is great!
+# What is Docker?
 
-Before multi-stage, you'd have to build the image on your host machine, then `COPY` the release into the image. With multi-stage builds, we have a one-step process for building our image.
+Build images that include all of the system requirements for your application and run them anyware, predictably.
+
+All we have to do is write out a Dockerfile (which often not very fun).
+
+---
+
+# FROM
+
+Inherit from another image.
+
+```dockerfile
+FROM elixir:1.6-alpine
+```
+
+---
+
+# WORKDIR
+
+Basically, `cd`.
+
+```dockerfile
+WORKDIR /opt/app
+```
+
+---
+
+# ENV
+
+Set environment variables.
+
+```dockerfile
+ENV MIX_ENV=prod PORT=4000
+```
+
+---
+
+# COPY
+
+Copy files from your source directory into the image.
+
+```dockerfile
+COPY mix.exs mix.lock ./
+```
+
+---
+
+# RUN
+
+```dockerfile
+RUN mix release
+```
+
+---
+
+# Layers
+
+Every docker instruction creates a new "layer".
+
+```dockerfile
+COPY node_modules ./
+RUN rm -rf node_modules
+```
+
+The `rm -rf` deletes the `node_modules` from the resulting image, but it'll still contribute to filesize.
+
+---
+
+# Caching
+
+`RUN` commands are cached if:
+
+* You don't change any of the instructions above them.
+* None of the files you `COPY` in changed.
+
+---
+
+# Let's build a docker image
+
+    $ docker build -t rzane/bathroom_finder .
 
 ---
 
@@ -138,8 +227,20 @@ Before multi-stage, you'd have to build the image on your host machine, then `CO
 
 ---
 
+# Multi-stage is great!
+
+Before multi-stage, you'd have to build the image on your host machine, then `COPY` the release into the image. With multi-stage builds, we have a one-step process for building our image.
+
+---
+
 # Run the image
 
     $ docker-compose up app
     
 *Note:* You might see some errors while the setup container is running.
+
+---
+
+# Coming soon...
+
+A talk about Kubernetes.
