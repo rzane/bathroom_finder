@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cookie='iR0E.qCgdd~FEfl3P|IE5VrWkD?oYMGD_3g$}$o=GIN0W0?G.XnN1L_xj^~hVY%~'
+erl -name debug@127.0.0.1 -setcookie "$cookie" -hidden -run observer

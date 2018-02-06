@@ -1,0 +1,5 @@
+#!/bin/bash
+
+yarn build
+MIX_ENV=prod mix phx.digest
+MIX_ENV=prod mix release

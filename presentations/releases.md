@@ -79,7 +79,7 @@ We can attach to the running process and poke around:
 
 # Deployment
 
-1. Uplaod the resulting tarball to the server.
+1. Upload the resulting tarball to the server.
 2. `tar -xvf bathroom_finder.tar`
 3. `bin/bathroom_finder start`
 

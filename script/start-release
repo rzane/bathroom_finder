@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export DATABASE_URL=postgres://localhost:5432/bathroom_finder_prod
+export PORT=4000
+
+MIX_ENV=prod mix do ecto.create, ecto.migrate
+
+_build/prod/rel/bathroom_finder start
