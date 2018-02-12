@@ -17,6 +17,7 @@ config :bathroom_finder, BathroomFinderWeb.Endpoint,
   load_from_system_env: true,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true,
   root: ".",
   version: Application.spec(:bathroom_finder, :vsn)
 

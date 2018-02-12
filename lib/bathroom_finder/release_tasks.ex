@@ -17,9 +17,15 @@ defmodule BathroomFinder.ReleaseTasks do
   end
 
   def migrate do
-    {:ok, _} = Application.ensure_all_started(:bathroom_finder)
+    start_requirements()
+    start_repo()
+
     dir = Application.app_dir(:bathroom_finder, "priv/repo/migrations")
     Ecto.Migrator.run(Repo, dir, :up, all: true)
+  end
+
+  defp start_repo do
+    {:ok, _} = Repo.start_link(pool_size: 1)
   end
 
   defp start_requirements do

@@ -48,12 +48,7 @@ defmodule BathroomFinderWeb.Endpoint do
   """
   def init(_key, config) do
     if config[:load_from_system_env] do
-      config =
-        config
-        |> Keyword.put(:http, [:inet6, port: get_port()])
-        |> Keyword.put(:server, server_enabled?())
-
-      {:ok, config}
+      {:ok, Keyword.put(config, :http, [:inet6, port: get_port()])}
     else
       {:ok, config}
     end
@@ -61,9 +56,5 @@ defmodule BathroomFinderWeb.Endpoint do
 
   defp get_port do
     System.get_env("PORT") || raise "expected the PORT environment variable to be set"
-  end
-
-  defp server_enabled? do
-    if System.get_env("DISABLE_SERVER"), do: false, else: true
   end
 end
