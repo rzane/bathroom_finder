@@ -1,9 +1,15 @@
 defmodule BathroomFinder.ReleaseTasks do
   alias BathroomFinder.Repo
 
-  def create do
+  def setup do
     start_requirements()
+    create_database()
+    establish_connection()
+    run_migrations()
+    seed_database()
+  end
 
+  defp create_database do
     case Repo.__adapter__.storage_up(Repo.config) do
       :ok ->
         IO.puts("The database has been created")
@@ -16,24 +22,18 @@ defmodule BathroomFinder.ReleaseTasks do
     end
   end
 
-  def migrate do
-    start_requirements()
-    start_repo()
-
-    dir = Application.app_dir(:bathroom_finder, "priv/repo/migrations")
-    Ecto.Migrator.run(Repo, dir, :up, all: true)
-  end
-
-  def seed do
-    start_requirements()
-    start_repo()
-
+  defp seed_database do
     :bathroom_finder
     |> Application.app_dir("priv/repo/seeds.exs")
     |> Code.load_file()
   end
 
-  defp start_repo do
+  defp run_migrations do
+    dir = Application.app_dir(:bathroom_finder, "priv/repo/migrations")
+    Ecto.Migrator.run(Repo, dir, :up, all: true)
+  end
+
+  defp establish_connection do
     {:ok, _} = Repo.start_link(pool_size: 1)
   end
 

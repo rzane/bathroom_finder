@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: setup-database-<%= deployment_id %>
   annotations:
-    kubernetes-deploy.shopify.io/timeout-override: "60s"
+    kubernetes-deploy.shopify.io/timeout-override: "420s"
   labels:
     type: setup-database
     name: setup-database-<%= deployment_id %>
