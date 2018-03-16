@@ -74,3 +74,57 @@ autoscale: true
 
 # kubernetes
 ### don't be scared
+
+---
+
+# prerequisites
+
+* you've dockerized your app
+* that's it
+
+---
+
+# tools we'll use
+
+* `docker`
+* `gcloud`
+* `kubectl`
+
+---
+
+# create a cluster
+
+    gcloud container clusters create bathroom-finder \
+      --machine-type f1-micro \
+      --num-nodes 3 \
+      --enable-autoscaling \
+      --min-nodes 3 \
+      --max-nodes 5
+
+Took: 2 minutes
+
+---
+
+# get credentials
+
+This tells `kubectl` how to talk to your cluster.
+
+    gcloud container clusters get-credentials bathroom-finder
+
+Took: 3 seconds
+
+---
+
+# make a namespace
+
+We want to separate `staging`, `prod`, etc.
+
+    kubectl create namespace staging
+
+Took: 3 seconds
+
+---
+
+# build our image
+
+    docker build -t $(IMAGE):latest -t $(IMAGE):$(TAG) .
