@@ -4,7 +4,7 @@ services:
     image: postgres:9-alpine
 
   setup:
-    image: rzane/bathroom_finder
+    build: .
     command:
       - setup-database
     depends_on:
@@ -13,7 +13,7 @@ services:
       - DATABASE_URL=postgres://postgres@db:5432/bathroom_finder
 
   app:
-    image: rzane/bathroom_finder
+    build: .
     ports:
       - 4000:4000
     depends_on:

@@ -2,6 +2,9 @@ alias BathroomFinder.Repo
 alias BathroomFinder.Bathroom
 alias BathroomFinder.Category
 
+Repo.delete_all(Bathroom)
+Repo.delete_all(Category)
+
 restaurants = Repo.insert! %Category{
   name: "Restaurants"
 }

@@ -24,6 +24,15 @@ defmodule BathroomFinder.ReleaseTasks do
     Ecto.Migrator.run(Repo, dir, :up, all: true)
   end
 
+  def seed do
+    start_requirements()
+    start_repo()
+
+    :bathroom_finder
+    |> Application.app_dir("priv/repo/seeds.exs")
+    |> Code.load_file()
+  end
+
   defp start_repo do
     {:ok, _} = Repo.start_link(pool_size: 1)
   end
