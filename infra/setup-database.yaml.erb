@@ -13,7 +13,7 @@ spec:
   restartPolicy: Never
   containers:
     - name: setup-database
-      image: rzane/bathroom_finder:<%= current_sha %>
+      image: <%= image %>
       imagePullPolicy: IfNotPresent
       command: ["/opt/app/bin/bathroom_finder", "setup-database"]
       env:

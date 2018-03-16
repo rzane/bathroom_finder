@@ -86,6 +86,7 @@ autoscale: true
 
 # tools we'll use
 
+* `make`
 * `docker`
 * `gcloud`
 * `kubectl`
@@ -93,14 +94,29 @@ autoscale: true
 
 ---
 
+# variables
+
+```cmake
+ENV?=staging
+CLUSTER?=bathroom-finder
+TAG?=$(shell git rev-parse --short HEAD)
+PROJECT?=$(shell gcloud config get-value project)
+IMAGE?=gcr.io/$(PROJECT)/bathroom_finder
+CONTEXT?=$(shell kubectl config current-context)
+```
+
+---
+
 # create a cluster
 
-    $ gcloud container clusters create bathroom-finder \
-      --machine-type f1-micro \
-      --num-nodes 3 \
-      --enable-autoscaling \
-      --min-nodes 3 \
-      --max-nodes 5
+```cmake
+gcloud container clusters create $(CLUSTER) \
+  --machine-type f1-micro \
+  --num-nodes 3 \
+  --enable-autoscaling \
+  --min-nodes 3 \
+  --max-nodes 5
+```
 
 ---
 
@@ -108,7 +124,9 @@ autoscale: true
 
 This tells `kubectl` how to talk to your cluster.
 
-    $ gcloud container clusters get-credentials bathroom-finder
+```cmake
+gcloud container clusters get-credentials $(CLUSTER)
+```
 
 ---
 
@@ -116,23 +134,31 @@ This tells `kubectl` how to talk to your cluster.
 
 We want to separate `staging`, `prod`, etc.
 
-    $ kubectl create namespace staging
+```cmake
+kubectl create namespace $(ENV)
+```
 
 ---
 
-# build and push our image
+# database
 
-    $ TAG=$(git rev-parse --short HEAD)
-    $ IMAGE=gcr.io/$(gcloud config get-value project)/bathroom-finder
+Don't do this in production, please.
 
-    $ docker build -t $IMAGE:latest -t $IMAGE:$TAG .
-    $ gcloud docker -- push $IMAGE:$TAG
-    $ gcloud docker -- push $IMAGE:latest
+```cmake
+kubectl create -f infra/postgres.yaml \
+  --namespace $(ENV)
+```
 
 ---
 
-# make sure your database is up
+# deploy
 
-Typically, we wouldn't run our database in a container, but for the sake of our demo:
+```cmake
+docker build -t $(IMAGE):$(TAG) .
+gcloud docker -- push $(IMAGE):$(TAG)
 
-    $ kubectl create -f infra/postgres.yaml --namespace staging
+REVISION=$(TAG) KUBECONFIG=~/.kube/config \
+  kubernetes-deploy $(ENV) $(CONTEXT) \
+    --template-dir=./infra \
+    --bindings=image=$(IMAGE):$(TAG)
+```
