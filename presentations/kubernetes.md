@@ -89,19 +89,18 @@ autoscale: true
 * `docker`
 * `gcloud`
 * `kubectl`
+* `kubernetes-deploy`
 
 ---
 
 # create a cluster
 
-    gcloud container clusters create bathroom-finder \
+    $ gcloud container clusters create bathroom-finder \
       --machine-type f1-micro \
       --num-nodes 3 \
       --enable-autoscaling \
       --min-nodes 3 \
       --max-nodes 5
-
-Took: 2 minutes
 
 ---
 
@@ -109,9 +108,7 @@ Took: 2 minutes
 
 This tells `kubectl` how to talk to your cluster.
 
-    gcloud container clusters get-credentials bathroom-finder
-
-Took: 3 seconds
+    $ gcloud container clusters get-credentials bathroom-finder
 
 ---
 
@@ -119,12 +116,23 @@ Took: 3 seconds
 
 We want to separate `staging`, `prod`, etc.
 
-    kubectl create namespace staging
-
-Took: 3 seconds
+    $ kubectl create namespace staging
 
 ---
 
-# build our image
+# build and push our image
 
-    docker build -t $(IMAGE):latest -t $(IMAGE):$(TAG) .
+    $ TAG=$(git rev-parse --short HEAD)
+    $ IMAGE=gcr.io/$(gcloud config get-value project)/bathroom-finder
+
+    $ docker build -t $IMAGE:latest -t $IMAGE:$TAG .
+    $ gcloud docker -- push $IMAGE:$TAG
+    $ gcloud docker -- push $IMAGE:latest
+
+---
+
+# make sure your database is up
+
+Typically, we wouldn't run our database in a container, but for the sake of our demo:
+
+    $ kubectl create -f infra/postgres.yaml --namespace staging

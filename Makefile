@@ -19,6 +19,9 @@ credentials:
 namespace:
 	kubectl create namespace $(ENV)
 
+postgres:
+	kubectl create -f infra/postgres.yaml --namespace=$(ENV)
+
 build:
 	docker build -t $(IMAGE):latest -t $(IMAGE):$(TAG) .
 
