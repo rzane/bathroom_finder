@@ -8,6 +8,18 @@ autoscale: true
 
 ---
 
+# i love heroku
+
+![](https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb)
+
+no hate, seriously.
+
+---
+
+# storytime
+
+---
+
 # scenario
 
 * client has been successful
@@ -74,6 +86,54 @@ autoscale: true
 
 # kubernetes
 ### don't be scared
+
+---
+
+# terms
+
+---
+
+# node
+
+* a machine
+* either virtual or physical, doesn't matter
+
+### heroku: dyno
+
+---
+
+# pod
+
+* it's a running process.
+* basically, just another word for a container.
+* they are born and when they die, they are not resurrected
+
+### heroku: process
+
+---
+
+# service
+
+* provides an IP address for a set of pods
+* typically serves as a "load balancer"
+* if you use a `type: LoadBalancer` on a cloud provider, they'll attach an actual load balancer.
+
+### heroku: kind of like declaring a `web` process, but much more flexible
+
+---
+
+# deployment
+
+* basically a template for spawning pods
+* when the template changes, updates are rolled out gracefully
+* if a pod in the deployment dies, a new one will be spawned
+* declares the number of "replicas" of a pod
+
+### heroku: app, except that you can have more than one of them
+
+---
+
+# let's deploy!
 
 ---
 
@@ -159,6 +219,6 @@ gcloud docker -- push $(IMAGE):$(TAG)
 
 REVISION=$(TAG) KUBECONFIG=~/.kube/config \
   kubernetes-deploy $(ENV) $(CONTEXT) \
-    --template-dir=./infra \
+    --template-dir=./infra/deploy \
     --bindings=image=$(IMAGE):$(TAG)
 ```

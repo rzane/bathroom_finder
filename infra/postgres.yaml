@@ -1,34 +1,20 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
-
+apiVersion: v1
+kind: Pod
 metadata:
   name: postgres
   labels:
     app: postgres
-
 spec:
-  replicas: 1
-
-  selector:
-    matchLabels:
-      app: postgres
-
-  template:
-    metadata:
-      labels:
-        app: postgres
-
-    spec:
-      containers:
-        - image: postgres:9-alpine
-          name: postgres
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              value: bathroom
-            - name: POSTGRES_PASSWORD
-              value: finder
+  containers:
+    - image: postgres:9-alpine
+      name: postgres
+      ports:
+        - containerPort: 5432
+      env:
+        - name: POSTGRES_USER
+          value: bathroom
+        - name: POSTGRES_PASSWORD
+          value: finder
 
 ---
 

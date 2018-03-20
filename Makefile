@@ -31,7 +31,7 @@ push:
 rollout:
 	REVISION=$(TAG) KUBECONFIG=~/.kube/config \
 	  kubernetes-deploy $(ENV) $(CONTEXT) \
-			--template-dir=./infra \
+			--template-dir=./infra/deploy \
 			--bindings=image=$(IMAGE):$(TAG)
 
 deploy: build push rollout
