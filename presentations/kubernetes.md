@@ -1,3 +1,4 @@
+theme: Sketchnote
 build-lists: true
 autoscale: true
 
