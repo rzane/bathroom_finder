@@ -212,12 +212,18 @@ kubectl create -f infra/postgres.yaml \
 
 ---
 
-# deploy
+# build and push
 
 ```cmake
 docker build -t $(IMAGE):$(TAG) .
 gcloud docker -- push $(IMAGE):$(TAG)
+```
 
+---
+
+# deploy
+
+```cmake
 REVISION=$(TAG) KUBECONFIG=~/.kube/config \
   kubernetes-deploy $(ENV) $(CONTEXT) \
     --template-dir=./infra/deploy \
