@@ -1,5 +1,7 @@
 # Bathroom Finder
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/rzane/bathroom_finder.svg)](https://greenkeeper.io/)
+
 An app that helps you find nearby bathrooms.
 
 The app is build using Phoenix, Absinthe, and GraphQL.
